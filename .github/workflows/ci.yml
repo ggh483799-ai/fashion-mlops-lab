@@ -19,7 +19,7 @@ jobs:
       - name: Install deps (CPU torch)
         run: |
           pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-          pip install psutil
+          pip install -r requirements.txt
 
       - name: Cache Fashion-MNIST
         uses: actions/cache@v4
