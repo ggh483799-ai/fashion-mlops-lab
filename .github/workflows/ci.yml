@@ -31,4 +31,11 @@ jobs:
         run: python -c "from torchvision import datasets; datasets.FashionMNIST(root='data', download=True); print('data ready')"
 
       - name: Eval gate (candidate vs baseline)
-        run: python eval/eval.py --model models/baseline.pt --baseline models/baseline.pt
+        run: |
+          if [ -f models/candidate.pt ]; then
+            echo ">> 检测到候选模型 candidate.pt，执行门禁判定"
+            python eval/eval.py --model models/candidate.pt --baseline models/baseline.pt
+          else
+            echo ">> 无候选模型，基线自检"
+            python eval/eval.py --model models/baseline.pt --baseline models/baseline.pt
+          fi
