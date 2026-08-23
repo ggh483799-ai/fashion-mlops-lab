@@ -40,3 +40,21 @@
 - 早期用 P99 latency + 1.2 倍阈值，CPU 单张推理 <1ms 噪声大，**同一模型自比都误判 FAIL**
 - 修复：预热 3 批 + 改用 mean latency + 阈值放宽到 1.5 倍 → 稳定（好模型 PASS ×2 / 坏模型 FAIL ×2）
 - 完整复盘见 `docs/postmortem-20260823-bad-model.md`
+
+## 云端证据（GitHub Actions，2026-08-23）
+
+- 仓库：https://github.com/ggh483799-ai/fashion-mlops-lab
+- PR #1（坏模型 candidate.pt 提交）：https://github.com/ggh483799-ai/fashion-mlops-lab/pull/1
+- CI run #32615657961 → **eval-gate FAIL，exit 1**，判定约 48 秒完成
+- 云端判定输出（与本地完全一致）：
+
+```json
+{
+  "new_metrics": { "accuracy": 0.6966, "mean_latency_ms": 0.216 },
+  "baseline_metrics": { "accuracy": 0.9204, "mean_latency_ms": 0.215 },
+  "result": "FAIL",
+  "reasons": ["accuracy 0.6966 vs baseline 0.9204 (drop 0.2238 > 0.005)"]
+}
+```
+
+- main 分支保护：要求 eval-gate 检查通过才能 merge（PR #1 因此无法合并）
