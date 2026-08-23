@@ -16,3 +16,4 @@ Thumbs.db
 
 # 模型默认不入库（bad.pt 演示文件显式保留时用 ! 例外）
 # models/*.pt 默认跟随 git（baseline.pt 需要入库供 CI 评估）
+/data
