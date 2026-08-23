@@ -2,5 +2,8 @@
 # torch / torchvision 在 CI 中单独用 CPU index 安装（见 .github/workflows/ci.yml）
 psutil
 
-# 服务化运行依赖（deploy/app.py，FastAPI 上传需 multipart）
+# 服务化运行依赖（deploy/app.py）
+fastapi
+uvicorn
+prometheus_client
 python-multipart
