@@ -1,0 +1,34 @@
+name: MLOps pipeline - train/eval gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  eval-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install deps (CPU torch)
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install psutil
+
+      - name: Cache Fashion-MNIST
+        uses: actions/cache@v4
+        with:
+          path: data
+          key: fashion-mnist-v1
+
+      - name: Download dataset
+        run: python -c "from torchvision import datasets; datasets.FashionMNIST(root='data', download=True); print('data ready')"
+
+      - name: Eval gate (candidate vs baseline)
+        run: python eval/eval.py --model models/baseline.pt --baseline models/baseline.pt

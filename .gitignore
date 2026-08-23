@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# 数据与报告（CI 中重新生成/缓存，不入库）
+data/
+reports/
+
+# screenshots/ 保留入库：卡模型证据（evidence-bad-model-gate.md）是面试展示资产
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 模型默认不入库（bad.pt 演示文件显式保留时用 ! 例外）
+# models/*.pt 默认跟随 git（baseline.pt 需要入库供 CI 评估）
